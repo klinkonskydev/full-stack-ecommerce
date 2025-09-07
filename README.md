@@ -1,5 +1,5 @@
-# Hey There, 👏
-This project is under construiction.
+# Hey There, :wave:
+This project is under construction.
 
 ## System stack
 The system will use:
