@@ -2,7 +2,7 @@ import { ProductRepositoryPrisma } from './src/infrastructure/product.repository
 
 import { CreateProductUseCase } from './src/usecases/product/create'
 import { ListProductUseCase } from './src/usecases/product/list'
-import { FindProductById } from './src/usecases/product/findById'
+import { FindProductByIdUseCase } from './src/usecases/product/findById'
 
 import { CreateProductRoute } from './src/infrastructure/api/express/routes/product/create-product.express.route'
 import { ListProductRoute } from './src/infrastructure/api/express/routes/product/list-product.express.route'
@@ -17,7 +17,7 @@ function main() {
 
   const createProductUseCase = CreateProductUseCase.create(repository)
   const listProductUseCase = ListProductUseCase.create(repository)
-  const findProductByIdUseCase = FindProductById.create(repository)
+  const findProductByIdUseCase = FindProductByIdUseCase.create(repository)
 
   const createRoute = CreateProductRoute.create(createProductUseCase)
   const listRoute = ListProductRoute.create(listProductUseCase)

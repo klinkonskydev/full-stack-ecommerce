@@ -10,13 +10,13 @@ export type FindProductByIdOutput = {
     price: number
     quantity: number
   }
-}
+} | null
 
-export class FindProductById implements UseCase<FindProductByIdInput, FindProductByIdOutput> {
+export class FindProductByIdUseCase implements UseCase<FindProductByIdInput, FindProductByIdOutput> {
   private constructor(private readonly productRepository: ProductRepository) {}
 
   public static create(productRepository: ProductRepository) {
-    return new FindProductById(productRepository)
+    return new FindProductByIdUseCase(productRepository)
   }
 
   public async execute({ id }: FindProductByIdInput): Promise<FindProductByIdOutput> {
@@ -24,7 +24,9 @@ export class FindProductById implements UseCase<FindProductByIdInput, FindProduc
     return this.present(product)
   }
 
-  public present(product: Product): FindProductByIdOutput {
+  public present(product: Product | null): FindProductByIdOutput {
+    if (!product) return null
+
     return { 
       product: { 
         id: product.id,

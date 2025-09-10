@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindByProductByIdUseCase, FindProductByIdOutput } from "../../../../../usecases/product/findById";
+import { FindProductByIdUseCase, FindProductByIdOutput } from "../../../../../usecases/product/findById";
 import { HttpMethod, Route } from "../route";
 
 type FindProductResponse = {
@@ -13,17 +13,22 @@ export class FindProductByIdRoute implements Route {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
-    private readonly findProductByIdService: FindByProductByIdUseCase
+    private readonly findProductByIdService: FindProductByIdUseCase
   ) {}
 
-  public static create(findProductByIdServie: FindByProductByIdUseCase) {
-    return new FindProductByIdRoute('/products/{id}', HttpMethod.GET, findProductByIdServie)
+  public static create(findProductByIdServie: FindProductByIdUseCase) {
+    return new FindProductByIdRoute('/products/:id', HttpMethod.GET, findProductByIdServie)
   }
 
   public getHandler() {
     return async (request: Request, response: Response) => {
       const { id } = request.params
-      const product = await this.findProductByIdService.execute(id)
+
+      if (!id) {
+        return
+      }
+
+      const product = await this.findProductByIdService.execute({ id })
 
       const productBody = this.present(product)
       response.status(200).json(productBody).send()
@@ -31,6 +36,8 @@ export class FindProductByIdRoute implements Route {
   }
 
   private present(output: FindProductByIdOutput): FindProductResponse {
+    if (!output) return {} as FindProductResponse
+
     return {
       id: output.product.id,
       name: output.product.name,
