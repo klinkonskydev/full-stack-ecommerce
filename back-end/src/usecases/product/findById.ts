@@ -1,4 +1,5 @@
 import { Product } from "../../domain/product/entity/product";
+import { ProductNotFoundError } from "../../domain/product/errors/ProductNotFoundError";
 import { ProductRepository } from "../../domain/product/repository/product";
 import { UseCase } from "../usecase";
 
@@ -25,7 +26,7 @@ export class FindProductByIdUseCase implements UseCase<FindProductByIdInput, Fin
   }
 
   public present(product: Product | null): FindProductByIdOutput {
-    if (!product) return null
+    if (!product) throw new ProductNotFoundError()
 
     return { 
       product: { 

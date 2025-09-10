@@ -37,7 +37,7 @@ export class ProductRepositoryPrisma implements ProductRepository {
 
   async findById(id: string): Promise<Product | null> {
     const product = await this.prismaClient.product.findUnique({
-      where: { id}
+      where: { id }
     })
 
     if (!product) return null

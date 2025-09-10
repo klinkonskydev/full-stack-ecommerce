@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { FindProductByIdUseCase, FindProductByIdOutput } from "../../../../../usecases/product/findById";
 import { HttpMethod, Route } from "../route";
+import { ProductNotFoundError } from "../../../../../domain/product/errors/ProductNotFoundError";
 
 type FindProductResponse = {
   id: string
@@ -22,16 +23,23 @@ export class FindProductByIdRoute implements Route {
 
   public getHandler() {
     return async (request: Request, response: Response) => {
-      const { id } = request.params
+      try {
+        const { id } = request.params
 
-      if (!id) {
-        return
+        if (!id) { return }
+
+        const product = await this.findProductByIdService.execute({ id })
+
+        const productBody = this.present(product)
+        response.status(200).json(productBody).send()
+      } catch (error) {
+        if (error instanceof ProductNotFoundError) {
+          response.status(404).json({ message: error.message })
+          return
+        }
+
+        response.status(500).json({ message: 'Internal Server Error' })
       }
-
-      const product = await this.findProductByIdService.execute({ id })
-
-      const productBody = this.present(product)
-      response.status(200).json(productBody).send()
     }
   }
 
