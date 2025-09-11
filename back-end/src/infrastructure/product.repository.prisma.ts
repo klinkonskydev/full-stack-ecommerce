@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Product } from "../domain/product/entity/product";
 import { ProductRepository } from "../domain/product/repository/product";
+import { ProductNotFoundError } from "../domain/product/errors/ProductNotFoundError";
 
 export class ProductRepositoryPrisma implements ProductRepository {
   private constructor(private readonly prismaClient: PrismaClient) {}
@@ -40,13 +41,23 @@ export class ProductRepositoryPrisma implements ProductRepository {
       where: { id }
     })
 
-    if (!product) return null
+    if (!product) throw new ProductNotFoundError();
 
     return Product.with({
       id: product.id,
       name: product.name,
       price: product.price,
       quantity: product.quantity
+    })
+  }
+
+  async delete(id: string): Promise<void> {
+    const product = await this.findById(id)
+
+    if (!product) throw new ProductNotFoundError();
+
+    await this.prismaClient.product.delete({
+      where: { id }
     })
   }
 }

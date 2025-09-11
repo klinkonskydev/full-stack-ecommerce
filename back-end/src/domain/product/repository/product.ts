@@ -4,5 +4,6 @@ import { Product } from "../entity/product";
 export interface ProductRepository {
   save(product: Product): Promise<void>
   list(): Promise<Product[]>
+  delete(id: string): Promise<void>
   findById(id: string): Promise<Product | null>
 }
