@@ -16,6 +16,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductInput, DeleteP
   public async execute({ id }: DeleteProductInput): Promise<DeleteProductOutput> {
     const product = await this.productRepository.findById(id)
     if (!product) throw new ProductNotFoundError()
+
     await this.productRepository.delete(id)
     return this.present(product)
   }

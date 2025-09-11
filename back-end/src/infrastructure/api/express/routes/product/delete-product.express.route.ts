@@ -21,7 +21,7 @@ export class DeleteProductRoute implements Route {
         if (!id) return;
 
         const { name } = await this.deleteProductService.execute({ id })
-        response.status(204).send(`Product ${name} deleted successfully.`)
+        response.status(200).send(`Product ${name} deleted successfully.`)
       } catch (error) {
         if (error instanceof ProductNotFoundError) {
           response.status(404).json({ message: error.message })

@@ -22,6 +22,7 @@ export class FindProductByIdUseCase implements UseCase<FindProductByIdInput, Fin
 
   public async execute({ id }: FindProductByIdInput): Promise<FindProductByIdOutput> {
     const product = await this.productRepository.findById(id)
+    if (!product) throw new ProductNotFoundError()
     return this.present(product)
   }
 
