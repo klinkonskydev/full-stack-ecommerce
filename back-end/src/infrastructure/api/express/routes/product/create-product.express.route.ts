@@ -33,7 +33,7 @@ export class CreateProductRoute implements Route {
       const output: CreateProductOutput = await this.createProductService.execute(input)
 
       const responseBody = this.present(output)
-      response.status(200).json(responseBody).send();
+      response.status(201).json(responseBody).send();
     }
   }
 
