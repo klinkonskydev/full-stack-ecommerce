@@ -53,4 +53,21 @@ export class ProductRepositoryPrisma implements ProductRepository {
   async delete(id: string): Promise<void> {
     await this.prismaClient.product.delete({ where: { id } })
   }
+
+  async saveMany(products: Product[]) {
+    const data = [];
+
+    for (let product of products) {
+      data.push({ 
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity
+      })
+    }
+
+    await this.prismaClient.product.createMany({
+      data
+    })
+  }
 }
