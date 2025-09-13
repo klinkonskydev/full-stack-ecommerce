@@ -10,6 +10,7 @@ export type FindProductByIdOutput = {
     name: string
     price: number
     quantity: number
+    category: string
   }
 } | null
 
@@ -33,7 +34,8 @@ export class FindProductByIdUseCase implements UseCase<FindProductByIdInput, Fin
       product: { 
         id: product.id,
         name: product.name,
-        price: product.price ,
+        price: product.price,
+        category: product.category,
         quantity: product.quantity
       } 
     }

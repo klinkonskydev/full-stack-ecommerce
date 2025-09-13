@@ -1,4 +1,4 @@
-import { Product } from "../../domain/product/entity/product"
+import { Product, ProductCategory } from "../../domain/product/entity/product"
 import { EmptyProductsBodyError } from "../../domain/product/errors/EmptyProductsBodyError"
 import { ProductRepository } from "../../domain/product/repository/product"
 import { UseCase } from "../usecase"
@@ -7,6 +7,7 @@ export type CreateManyProductsInput = {
   products: {
     name: string
     price: number
+    category: ProductCategory
   }[]
 }
 
@@ -26,7 +27,7 @@ export class CreateManyProductsUseCase implements UseCase<CreateManyProductsInpu
     let productsBody = [] as Product[]
     
     for (let product of products) {
-      productsBody.push(Product.create(product.name, product.price))
+      productsBody.push(Product.create(product.name, product.price, product.category))
     }
 
     await this.productRepository.saveMany(productsBody)

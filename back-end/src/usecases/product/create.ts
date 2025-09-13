@@ -1,4 +1,4 @@
-import { Product } from "../../domain/product/entity/product"
+import { Product, ProductCategory } from "../../domain/product/entity/product"
 import { ProductRepository } from "../../domain/product/repository/product"
 
 import { UseCase } from "../usecase"
@@ -6,6 +6,7 @@ import { UseCase } from "../usecase"
 export type CreateProductInput = {
   name: string
   price: number
+  category: ProductCategory
 }
 
 export type CreateProductOutput = {
@@ -19,8 +20,8 @@ export class CreateProductUseCase implements UseCase<CreateProductInput, CreateP
     return new CreateProductUseCase(productRepository)
   }
 
-  public async execute({ name, price }: CreateProductInput): Promise<CreateProductOutput> {
-    const product = Product.create(name, price)
+  public async execute({ name, price, category }: CreateProductInput): Promise<CreateProductOutput> {
+    const product = Product.create(name, price, category)
 
     await this.productRepository.save(product)
 

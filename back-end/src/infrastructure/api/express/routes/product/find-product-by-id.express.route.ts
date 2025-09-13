@@ -7,6 +7,7 @@ type FindProductResponse = {
   id: string
   name: string
   price: number
+  category: string
   quantity: number
 }
 
@@ -50,6 +51,7 @@ export class FindProductByIdRoute implements Route {
       id: output.product.id,
       name: output.product.name,
       price: output.product.price,
+      category: output.product.category,
       quantity: output.product.quantity,
     }
   }

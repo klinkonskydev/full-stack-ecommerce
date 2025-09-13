@@ -23,11 +23,12 @@ export class CreateProductRoute implements Route {
 
   public getHandler() {
     return async (request: Request, response: Response) => {
-      const { name, price } = request.body
+      const { name, price, category } = request.body
 
       const input: CreateProductInput = {
         name,
-        price
+        price,
+        category
       }
 
       const output: CreateProductOutput = await this.createProductService.execute(input)

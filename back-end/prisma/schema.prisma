@@ -14,9 +14,30 @@ datasource db {
 }
 
 model Product {
-  id       String   @id
-  name     String
-  price    Float
-  quantity Int
+  id          String     @id
+  name        String
+  price       Float
+  quantity    Int
+  category    Category   @default(OTHERS)
 }
 
+enum Category {
+  APPETIZERS         @map("appetizers")
+  MAIN_COURSES       @map("main_courses")
+  SIDE_DISHES        @map("side_dishes")
+  DESSERTS           @map("desserts")
+  SOFT_DRINKS        @map("soft_drinks")
+  HOT_BEVERAGES      @map("hot_beverages")
+  ALCOHOLIC_BEVERAGES @map("alcoholic_beverages")
+  BREAKFAST          @map("breakfast")
+  LUNCH              @map("lunch")
+  DINNER             @map("dinner")
+  KIDS_MENU          @map("kids_menu")
+  VEGETARIAN         @map("vegetarian")
+  VEGAN              @map("vegan")
+  GLUTEN_FREE        @map("gluten_free")
+  COMBOS             @map("combos")
+  SEASONAL           @map("seasonal")
+  EXTRAS             @map("extras")
+  OTHERS             @map("others")
+}

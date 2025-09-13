@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { Product } from "../domain/product/entity/product";
+import { Category, PrismaClient, Product as PrismaProduct } from "@prisma/client";
+import { Product, ProductCategory } from "../domain/product/entity/product";
 import { ProductRepository } from "../domain/product/repository/product";
 
 export class ProductRepositoryPrisma implements ProductRepository {
@@ -11,10 +11,11 @@ export class ProductRepositoryPrisma implements ProductRepository {
 
   async save(product: Product): Promise<void> {
     // Entity -> Prisma
-    const data = {
+    const data: PrismaProduct = {
       id: product.id,
       name: product.name,
       price: product.price,
+      category: product.category as Category,
       quantity: product.quantity
     }
 
@@ -29,6 +30,7 @@ export class ProductRepositoryPrisma implements ProductRepository {
       id: prismaProduct.id,
       name: prismaProduct.name,
       price: prismaProduct.price,
+      category: prismaProduct.category as ProductCategory,
       quantity: prismaProduct.quantity
     }))
 
@@ -46,6 +48,7 @@ export class ProductRepositoryPrisma implements ProductRepository {
       id: product.id,
       name: product.name,
       price: product.price,
+      category: product.category as ProductCategory,
       quantity: product.quantity
     })
   }
