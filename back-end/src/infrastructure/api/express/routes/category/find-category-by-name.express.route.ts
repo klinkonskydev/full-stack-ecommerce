@@ -1,32 +1,32 @@
 import { Request, Response } from "express";
-import { FindCategoryByIdOutput, FindCategoryByIdUseCase } from "../../../../../usecases/category/findById";
 import { HttpMethod, Route } from "../route";
 import { CategoryNotFoundError } from "../../../../../domain/category/errors/CategoryNotFound";
+import { FindCategoryByNameOutput, FindCategoryByNameUseCase } from "../../../../../usecases/category/findByName";
 
-export type FindCategoryByIdResponse = {
+export type FindCategoryByNameResponse = {
   id: number
   name: string
 }
 
-export class FindCategoryByIdRoute implements Route {
+export class FindCategoryByNameRoute implements Route {
   private constructor(
     private readonly path: string,
     private readonly method: HttpMethod,
-    private readonly findCategoryByIdUseCase: FindCategoryByIdUseCase
+    private readonly findCategoryByIdUseCase: FindCategoryByNameUseCase
   ) {}
 
-  public static create(findCategoryByIdUseCase: FindCategoryByIdUseCase) {
-    return new FindCategoryByIdRoute('/categories/id/:id', HttpMethod.GET, findCategoryByIdUseCase)
+  public static create(findCategoryByIdUseCase: FindCategoryByNameUseCase) {
+    return new FindCategoryByNameRoute('/categories/name/:name', HttpMethod.GET, findCategoryByIdUseCase)
   }
 
   public getHandler() {
     return async (request: Request, response: Response) => {
       try {
-        const { id } = request.params
+        const { name } = request.params
 
-        if (!id) return
+        if (!name) return
         
-        const category = await this.findCategoryByIdUseCase.execute({ id: Number(id)  })
+        const category = await this.findCategoryByIdUseCase.execute({ name })
 
         const productBody = this.present(category)
         response.status(200).json(productBody).send()
@@ -41,8 +41,8 @@ export class FindCategoryByIdRoute implements Route {
     }
   }
 
-  private present(output: FindCategoryByIdOutput): FindCategoryByIdResponse {
-    if (!output) return {} as FindCategoryByIdResponse
+  private present(output: FindCategoryByNameOutput): FindCategoryByNameResponse {
+    if (!output) return {} as FindCategoryByNameResponse
 
     return {
       id: output.id,

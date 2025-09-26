@@ -9,6 +9,7 @@ import { DeleteProductUseCase } from './src/usecases/product/delete'
 
 import { FindAllCategoriesUseCase } from './src/usecases/category/findAll'
 import { FindCategoryByIdUseCase } from './src/usecases/category/findById'
+import { FindCategoryByNameUseCase } from './src/usecases/category/findByName'
 
 import { CreateProductRoute } from './src/infrastructure/api/express/routes/product/create-product.express.route'
 import { CreateManyProductsRoute } from './src/infrastructure/api/express/routes/product/create-many-products.express.route'
@@ -18,6 +19,7 @@ import { DeleteProductRoute } from './src/infrastructure/api/express/routes/prod
 
 import { FindAllCategoriesRoute } from './src/infrastructure/api/express/routes/category/find-all-categories.express.route'
 import { FindCategoryByIdRoute } from './src/infrastructure/api/express/routes/category/find-category-by-id.express.route'
+import { FindCategoryByNameRoute  } from './src/infrastructure/api/express/routes/category/find-category-by-name.express.route'
 
 import { ApiExpress } from './src/infrastructure/api/express/api.express'
 
@@ -35,6 +37,7 @@ function main() {
 
   const findAllCategoriesUseCase = FindAllCategoriesUseCase.create(categoryRepository)
   const findCategoryByIdUseCase = FindCategoryByIdUseCase.create(categoryRepository)
+  const findCategoryByNameUseCase = FindCategoryByNameUseCase.create(categoryRepository)
 
   const createRoute = CreateProductRoute.create(createProductUseCase)
   const createManyRoute = CreateManyProductsRoute.create(createManyProductsUseCase)
@@ -44,9 +47,10 @@ function main() {
 
   const findAllCategoryRoute = FindAllCategoriesRoute.create(findAllCategoriesUseCase)
   const findCategoryByIdRoute = FindCategoryByIdRoute.create(findCategoryByIdUseCase)
+  const findCategoryByNameRoute = FindCategoryByNameRoute.create(findCategoryByNameUseCase)
 
   const productRoutes = [createRoute, listRoute, findRoute, deleteRoute, createManyRoute]
-  const categoryRoutes = [findAllCategoryRoute, findCategoryByIdRoute]
+  const categoryRoutes = [findAllCategoryRoute, findCategoryByIdRoute, findCategoryByNameRoute]
 
   const port = Number(process.env.PORT) || 8080
 
